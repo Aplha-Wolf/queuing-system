@@ -1,0 +1,21 @@
+{application, server, [
+    {vsn, "1.0.0"},
+    {applications, [envoy,
+                    gleam_erlang,
+                    gleam_http,
+                    gleam_json,
+                    gleam_otp,
+                    gleam_stdlib,
+                    gleeunit,
+                    lustre,
+                    mist,
+                    pog,
+                    shared,
+                    simplifile,
+                    squirrel,
+                    storail,
+                    wisp]},
+    {description, ""},
+    {modules, []},
+    {registered, []}
+]}.

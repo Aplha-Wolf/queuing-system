@@ -1,0 +1,1 @@
+-record(fe_password_message, {password :: binary()}).

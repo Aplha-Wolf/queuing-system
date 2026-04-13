@@ -1,0 +1,1 @@
+-record(queue, {id :: integer(), que_label :: binary()}).

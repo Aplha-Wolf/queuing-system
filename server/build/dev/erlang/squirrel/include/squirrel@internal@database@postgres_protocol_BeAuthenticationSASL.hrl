@@ -1,0 +1,1 @@
+-record(be_authentication_s_a_s_l, {mechanisms :: list(binary())}).

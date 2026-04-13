@@ -1,0 +1,1 @@
+-record(client_first, {user :: binary(), nonce :: binary()}).

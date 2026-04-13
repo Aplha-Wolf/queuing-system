@@ -1,0 +1,1 @@
+-record(fe_query, {'query' :: binary()}).

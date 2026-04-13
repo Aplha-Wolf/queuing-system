@@ -1,0 +1,1 @@
+-record(page, {count :: integer(), total :: integer()}).

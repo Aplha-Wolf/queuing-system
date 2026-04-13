@@ -1,0 +1,1 @@
+-record(config, {storage_path :: binary()}).

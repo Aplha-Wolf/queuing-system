@@ -1,0 +1,1 @@
+-record(next_queue_row, {id :: integer(), que_label :: binary()}).

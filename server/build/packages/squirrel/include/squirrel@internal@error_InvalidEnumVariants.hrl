@@ -1,0 +1,1 @@
+-record(invalid_enum_variants, {fields :: list(binary())}).

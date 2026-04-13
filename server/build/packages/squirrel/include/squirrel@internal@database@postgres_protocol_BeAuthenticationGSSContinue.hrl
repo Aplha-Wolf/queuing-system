@@ -1,0 +1,1 @@
+-record(be_authentication_g_s_s_continue, {auth_data :: bitstring()}).

@@ -1,0 +1,1 @@
+-record(byte_index, {position :: integer()}).

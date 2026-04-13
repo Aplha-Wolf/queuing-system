@@ -1,0 +1,1 @@
+-record(state_initial, {parameters :: gleam@dict:dict(binary(), binary())}).

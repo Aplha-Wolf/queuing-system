@@ -1,0 +1,1 @@
+-record(successful, {server_proof :: bitstring()}).

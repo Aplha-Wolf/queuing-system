@@ -1,0 +1,1 @@
+-record(be_authentication_m_d5_password, {salt :: bitstring()}).

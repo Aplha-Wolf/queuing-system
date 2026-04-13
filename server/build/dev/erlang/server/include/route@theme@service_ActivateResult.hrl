@@ -1,0 +1,1 @@
+-record(activate_result, {message :: binary()}).

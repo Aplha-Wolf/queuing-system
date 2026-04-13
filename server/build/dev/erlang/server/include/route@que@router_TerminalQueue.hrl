@@ -1,0 +1,1 @@
+-record(terminal_queue, {id :: integer(), name :: binary()}).

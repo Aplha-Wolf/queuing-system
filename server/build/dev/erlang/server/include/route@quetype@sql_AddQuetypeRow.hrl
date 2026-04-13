@@ -1,0 +1,1 @@
+-record(add_quetype_row, {id :: integer()}).

@@ -1,0 +1,1 @@
+-record(pg_invalid_password, {user :: binary()}).

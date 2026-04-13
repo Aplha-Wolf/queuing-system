@@ -1,0 +1,1 @@
+-record(activate_theme_result, {message :: binary()}).

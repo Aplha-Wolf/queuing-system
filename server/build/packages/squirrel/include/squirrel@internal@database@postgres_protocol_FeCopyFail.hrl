@@ -1,0 +1,1 @@
+-record(fe_copy_fail, {error :: binary()}).

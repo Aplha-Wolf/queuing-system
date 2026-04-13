@@ -1,0 +1,1 @@
+-record(unregister, {subject :: gleam@erlang@process:subject(any())}).

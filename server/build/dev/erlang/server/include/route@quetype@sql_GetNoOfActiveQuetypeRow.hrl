@@ -1,0 +1,1 @@
+-record(get_no_of_active_quetype_row, {total_count :: integer()}).

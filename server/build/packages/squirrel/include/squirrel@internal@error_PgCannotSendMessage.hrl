@@ -1,0 +1,1 @@
+-record(pg_cannot_send_message, {reason :: binary()}).

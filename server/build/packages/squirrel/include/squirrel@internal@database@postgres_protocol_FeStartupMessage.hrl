@@ -1,0 +1,1 @@
+-record(fe_startup_message, {params :: list({binary(), binary()})}).

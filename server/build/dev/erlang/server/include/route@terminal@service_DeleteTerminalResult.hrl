@@ -1,0 +1,1 @@
+-record(delete_terminal_result, {message :: binary()}).

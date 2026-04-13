@@ -1,0 +1,1 @@
+-record(grocery_item, {name :: binary(), quantity :: integer()}).

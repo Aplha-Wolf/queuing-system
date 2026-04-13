@@ -1,0 +1,1 @@
+-record(fe_sasl_response, {data :: bitstring()}).

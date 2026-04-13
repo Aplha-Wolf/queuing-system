@@ -1,0 +1,1 @@
+-record(corrupt_json, {path :: binary(), detail :: gleam@json:decode_error()}).

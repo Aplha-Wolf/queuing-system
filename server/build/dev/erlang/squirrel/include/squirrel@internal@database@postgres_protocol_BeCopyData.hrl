@@ -1,0 +1,1 @@
+-record(be_copy_data, {data :: bitstring()}).

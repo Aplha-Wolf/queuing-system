@@ -1,0 +1,1 @@
+-record(broadcast, {msg :: any()}).

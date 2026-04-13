@@ -1,0 +1,1 @@
+-record(eval, {run :: fun((any()) -> {any(), {ok, any()} | {error, any()}})}).
