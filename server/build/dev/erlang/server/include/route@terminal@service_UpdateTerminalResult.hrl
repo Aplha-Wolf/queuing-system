@@ -1,1 +1,0 @@
--record(update_terminal_result, {message :: binary()}).

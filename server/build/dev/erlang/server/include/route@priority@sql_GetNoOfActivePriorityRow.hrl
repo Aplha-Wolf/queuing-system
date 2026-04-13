@@ -1,1 +1,0 @@
--record(get_no_of_active_priority_row, {total_count :: integer()}).

@@ -1,1 +1,0 @@
--record(pg_invalid_user_database, {user :: binary(), database :: binary()}).

@@ -1,1 +1,0 @@
--record(fe_cancel_request, {process_id :: integer(), secret_key :: integer()}).

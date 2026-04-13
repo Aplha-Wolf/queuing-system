@@ -1,1 +1,0 @@
--record(file_system_error, {path :: binary(), detail :: simplifile:file_error()}).

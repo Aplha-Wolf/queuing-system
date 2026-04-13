@@ -1,1 +1,0 @@
--record(fe_sasl_initial_response, {name :: binary(), data :: bitstring()}).

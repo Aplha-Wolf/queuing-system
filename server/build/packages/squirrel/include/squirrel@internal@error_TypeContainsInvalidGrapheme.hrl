@@ -1,1 +1,0 @@
--record(type_contains_invalid_grapheme, {at :: integer(), grapheme :: binary()}).

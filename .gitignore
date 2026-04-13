@@ -1,0 +1,22 @@
+# Gleam build artifacts
+**/build/
+**/gen/
+**/dist/
+
+# Lustre
+client/.lustre/
+
+# Generated FFI files
+**/src/lib/*.ffi.js
+
+# Editor/IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+
+# Environment
+.env

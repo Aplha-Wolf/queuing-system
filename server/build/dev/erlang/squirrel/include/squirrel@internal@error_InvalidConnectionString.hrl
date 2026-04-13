@@ -1,1 +1,0 @@
--record(invalid_connection_string, {string :: binary()}).

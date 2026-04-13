@@ -1,1 +1,0 @@
--record(pg_unsupported_authentication, {auth :: binary()}).

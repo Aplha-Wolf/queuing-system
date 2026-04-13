@@ -1,1 +1,0 @@
--record(add_terminal_quetype_row, {id :: integer()}).

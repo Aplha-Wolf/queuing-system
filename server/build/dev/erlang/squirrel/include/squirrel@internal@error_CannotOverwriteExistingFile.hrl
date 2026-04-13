@@ -1,1 +1,0 @@
--record(cannot_overwrite_existing_file, {file :: binary()}).

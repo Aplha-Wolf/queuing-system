@@ -1,1 +1,0 @@
--record(object_not_found, {namespace :: list(binary()), id :: binary()}).

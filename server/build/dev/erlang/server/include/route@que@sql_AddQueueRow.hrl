@@ -1,1 +1,0 @@
--record(add_queue_row, {id :: integer()}).

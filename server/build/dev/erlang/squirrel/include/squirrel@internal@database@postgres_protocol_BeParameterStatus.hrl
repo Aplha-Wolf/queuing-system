@@ -1,1 +1,0 @@
--record(be_parameter_status, {name :: binary(), value :: binary()}).

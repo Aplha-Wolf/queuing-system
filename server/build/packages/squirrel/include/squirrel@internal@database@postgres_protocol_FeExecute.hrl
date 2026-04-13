@@ -1,1 +1,0 @@
--record(fe_execute, {portal :: binary(), return_row_count :: integer()}).

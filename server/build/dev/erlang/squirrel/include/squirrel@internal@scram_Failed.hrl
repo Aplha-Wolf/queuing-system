@@ -1,1 +1,0 @@
--record(failed, {error :: bitstring()}).

@@ -1,1 +1,0 @@
--record(pg_cannot_decode_received_message, {reason :: binary()}).

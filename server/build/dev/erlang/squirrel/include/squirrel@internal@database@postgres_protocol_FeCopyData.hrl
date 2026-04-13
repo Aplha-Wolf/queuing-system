@@ -1,1 +1,0 @@
--record(fe_copy_data, {data :: bitstring()}).

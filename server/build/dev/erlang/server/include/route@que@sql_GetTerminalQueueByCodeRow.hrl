@@ -1,1 +1,0 @@
--record(get_terminal_queue_by_code_row, {id :: integer(), que_label :: binary()}).

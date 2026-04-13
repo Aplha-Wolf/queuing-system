@@ -1,1 +1,0 @@
--record(outdated_file, {file :: binary()}).

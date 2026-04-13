@@ -1,1 +1,0 @@
--record(fe_gss_response, {data :: bitstring()}).

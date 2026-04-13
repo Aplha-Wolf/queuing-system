@@ -1,1 +1,0 @@
--record(postgres_version_has_invalid_format, {version :: bitstring()}).

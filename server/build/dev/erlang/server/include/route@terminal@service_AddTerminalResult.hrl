@@ -1,1 +1,0 @@
--record(add_terminal_result, {insert_id :: integer()}).

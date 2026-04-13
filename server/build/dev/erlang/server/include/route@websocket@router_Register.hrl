@@ -1,1 +1,0 @@
--record(register, {subject :: gleam@erlang@process:subject(any())}).

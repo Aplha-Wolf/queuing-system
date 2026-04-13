@@ -1,1 +1,0 @@
--record(pg_permission_denied, {query_file :: binary(), reason :: binary()}).

@@ -1,1 +1,0 @@
--record(invalid_enum_name, {name :: binary()}).
