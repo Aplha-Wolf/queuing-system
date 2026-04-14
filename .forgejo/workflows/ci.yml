@@ -1,0 +1,103 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+concurrency:
+  group: ${{ runner.os }}-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: docker
+    container:
+      image: debian:bookworm-slim
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: Qw3rty!235
+          POSTGRES_DB: queuing_system
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout repository
+        uses: https://code.forgejo.org/actions/checkout@v4
+
+      - name: Install system dependencies
+        run: |
+          apt-get update -qq
+          apt-get install -y -qq --no-install-recommends \
+            curl \
+            erlang \
+            postgresql-client \
+            build-essential
+
+      - name: Install Gleam
+        run: |
+          curl -fsSL https://gleam.run/get | sh
+          echo "$HOME/.gleam/bin" >> $GITHUB_PATH
+
+      - name: Cache Gleam dependencies
+        uses: https://data.forgejo.org/actions/cache@v4
+        with:
+          path: |
+            ~/.cache/gleam
+            server/build
+            shared/build
+          key: ${{ runner.os }}-gleam-${{ hashFiles('**/gleam.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-gleam-
+
+      - name: Get PostgreSQL connection details
+        run: |
+          echo "DATABASE_URL=postgres://root:Qw3rty!235@localhost:5432/queuing_system" >> $GITHUB_ENV
+
+      - name: Build server
+        run: |
+          cd server
+          gleam deps download
+          gleam build
+
+      - name: Build shared
+        run: |
+          cd shared
+          gleam deps download
+          gleam build
+
+      - name: Run server tests
+        run: |
+          cd server
+          gleam test
+
+      - name: Check formatting
+        run: |
+          gleam format --check ./server ./shared
+
+# Email notifications on failure (uncomment to enable):
+# https://forgejo.org/docs/latest/user/actions/basic-concepts/#email-notifications
+# name: CI Failure Notification
+# on:
+#   workflow_run:
+#     workflows: [CI]
+#     types: [completed]
+#     if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+# jobs:
+#   notify:
+#     runs-on: docker
+#     steps:
+#       - name: Send failure email
+#         run: |
+#           echo "CI workflow failed for ${{ github.event.workflow_run.repository.name }}"
+#           # Configure SMTP in Forgejo server settings, then use:
+#           # curl -X POST $FORGEJO_URL/api/v1/issues/notify \
+#           #   -H "Authorization: token ${{ secrets.FORGEJO_TOKEN }}"

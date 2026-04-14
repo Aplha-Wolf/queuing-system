@@ -2,6 +2,7 @@
 **/build/
 **/gen/
 **/dist/
+**/priv/
 
 # Lustre
 client/.lustre/
