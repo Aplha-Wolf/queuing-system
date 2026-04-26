@@ -1,0 +1,4 @@
+  warning: could not transcribe server/src/priv/otw.mp4: Video transcription requires faster-whisper. Run: pip install 'graphifyy[video]'
+  warning: could not transcribe server/src/priv/soul.mp4: Video transcription requires faster-whisper. Run: pip install 'graphifyy[video]'
+  warning: could not transcribe server/src/priv/taj.mp4: Video transcription requires faster-whisper. Run: pip install 'graphifyy[video]'
+[]
