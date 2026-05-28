@@ -14,7 +14,7 @@ import pog
 /// > [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub type GetDisplayTerminalsRow {
-  GetDisplayTerminalsRow(id: Int, code: String, name: String, que_label: String)
+  GetDisplayTerminalsRow(id: Int, code: String, name: String)
 }
 
 /// Runs the `get_display_terminals` query
@@ -32,25 +32,11 @@ pub fn get_display_terminals(
     use id <- decode.field(0, decode.int)
     use code <- decode.field(1, decode.string)
     use name <- decode.field(2, decode.string)
-    use que_label <- decode.field(3, decode.string)
-    decode.success(GetDisplayTerminalsRow(id:, code:, name:, que_label:))
+    decode.success(GetDisplayTerminalsRow(id:, code:, name:))
   }
 
   "SELECT
-    dt.terminal_id AS id, t.code AS code, t.name AS name, 
-    COALESCE((SELECT
-        p.prefix || qt.prefix || LPAD(CAST(q.que_no AS TEXT), 3, '0')
-    FROM
-        que AS q
-            INNER JOIN quetype AS qt ON (qt.id = q.quetype_id)
-                INNER JOIN priority AS p ON (p.id = q.priority_id)
-            INNER JOIN terminal_quetype AS tq ON (tq.quetype_id = qt.id)
-    WHERE
-        q.terminal_id = dt.terminal_id AND q.update_at is NULL
-        AND q.reset_id = (SELECT r.id FROM reset AS r ORDER BY r.id DESC LIMIT 1)
-    ORDER BY
-        q.update_at DESC
-    LIMIT 1), '') AS que_label
+    dt.terminal_id AS id, t.code AS code, t.name AS name
 FROM
     display_terminal AS dt
         INNER JOIN terminal AS t ON (t.id = dt.terminal_id)

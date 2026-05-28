@@ -9,6 +9,7 @@ import apps/settings/public as settings_mod
 import helpers/env_loader
 import helpers/sql as sql_helper
 import modules/notifications/public as notifications
+import modules/queue/public as queue_mod
 import pog
 
 pub type App {
@@ -29,12 +30,13 @@ pub fn bootstrap() -> App {
 
   let assert Ok(notif_started) = notifications.start()
   let notif_bus = notif_started.data
+  let queue_service = queue_mod.queue_service(db)
 
   App(
-    terminal: terminal_app.get_service(terminal_app.start(db)),
-    display: display_app.get_service(display_app.start(db)),
+    terminal: terminal_app.get_service(terminal_app.start(db, queue_service)),
+    display: display_app.get_service(display_app.start(db, queue_service)),
     frontdesk: frontdesk_app.get_service(
-      frontdesk_app.start(db, notif_bus),
+      frontdesk_app.start(db, queue_service, notif_bus),
     ),
     settings: settings_app.get_service(settings_app.start(db)),
     notifications: notif_bus,

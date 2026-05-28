@@ -6,6 +6,7 @@ import lustre/effect.{type Effect, none}
 import lustre/element.{type Element, none as elem_none}
 import lustre/element/html
 import apps/frontdesk/public as frontdesk_mod
+import modules/queue/public as queue_mod
 import ui/button
 import ui/kit
 import ui/theme/theme as theme_helpers
@@ -18,8 +19,8 @@ pub type InitArgs {
 pub type Model {
   Model(
     frontdesk: Option(frontdesk_mod.FrontdeskInfo),
-    priorities: List(frontdesk_mod.PriorityItem),
-    quetypes: List(frontdesk_mod.QueTypeItem),
+    priorities: List(queue_mod.PriorityItem),
+    quetypes: List(queue_mod.QueTypeItem),
     selected_priority: String,
     selected_quetype: String,
     message: String,
@@ -120,7 +121,7 @@ fn header_view(title: String, bg: String, fg: String) -> Element(Msg) {
 }
 
 fn priority_grid(
-  priorities: List(frontdesk_mod.PriorityItem),
+  priorities: List(queue_mod.PriorityItem),
   selected: String,
   colors: theme_types.ComponentColors,
 ) -> Element(Msg) {
@@ -150,7 +151,7 @@ fn priority_grid(
 }
 
 fn quetype_grid(
-  quetypes: List(frontdesk_mod.QueTypeItem),
+  quetypes: List(queue_mod.QueTypeItem),
   selected: String,
   colors: theme_types.ComponentColors,
 ) -> Element(Msg) {

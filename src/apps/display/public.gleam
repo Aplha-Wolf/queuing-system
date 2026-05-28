@@ -1,5 +1,6 @@
 import gleam/list
 import gleam/option.{type Option, Some, None}
+import modules/queue/public as queue_mod
 import pog
 import repository/display/sql as display_sql
 import repository/display_terminal/sql as display_terminal_sql
@@ -10,11 +11,14 @@ pub type TerminalInfo {
 }
 
 pub type DisplayService {
-  DisplayService(db: pog.Connection)
+  DisplayService(db: pog.Connection, queues: queue_mod.QueueService)
 }
 
-pub fn display_service(db: pog.Connection) -> DisplayService {
-  DisplayService(db:)
+pub fn display_service(
+  db: pog.Connection,
+  queues: queue_mod.QueueService,
+) -> DisplayService {
+  DisplayService(db:, queues:)
 }
 
 pub fn find_by_code(service: DisplayService, code: String) -> Option(Display) {
@@ -50,11 +54,13 @@ pub fn get_terminals(
   case display_terminal_sql.get_display_terminals(service.db, display_id, limit) {
     Ok(rows) ->
       list.map(rows.rows, fn(r) {
+        let queue =
+          queue_mod.get_current_queue_by_terminal_id(service.queues, r.id)
         TerminalInfo(
           terminal_id: r.id,
           code: r.code,
           name: r.name,
-          que_label: r.que_label,
+          que_label: queue.que_label,
         )
       })
     _ -> []
@@ -67,6 +73,9 @@ pub fn group_into_rows(
 ) -> List(List(TerminalInfo)) {
   case terminals {
     [] -> []
-    _ -> [list.take(terminals, cols), ..group_into_rows(list.drop(terminals, cols), cols)]
+    _ -> [
+      list.take(terminals, cols),
+      ..group_into_rows(list.drop(terminals, cols), cols)
+    ]
   }
 }
