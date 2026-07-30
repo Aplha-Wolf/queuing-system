@@ -1,0 +1,18 @@
+#!/bin/bash
+# Post-commit hook: rebuild graphify knowledge graph after every commit
+# Installed by: git config core.hooksPath .githooks
+
+set -e
+
+# Only run if graphify is installed
+if ! python3 -m graphify --version > /dev/null 2>&1; then
+  exit 0
+fi
+
+# Only run if we're in the repo root (graphify-out/ already exists)
+if [ ! -f "graphify-out/graph.json" ]; then
+  exit 0
+fi
+
+# Rebuild the graph (no LLM needed, code-only, quiet)
+python3 -m graphify update . --no-cluster > /dev/null 2>&1 || true
