@@ -1,13 +1,19 @@
+import apps/settings/public as settings_mod
 import lustre/attribute.{class, type_}
 import lustre/effect.{type Effect, none as effect_none}
 import lustre/element.{type Element, none as element_none}
 import lustre/element/html
 import lustre/event.{on_input}
-import apps/settings/public as settings_mod
 import ui/theme/types.{type ComponentColors, ComponentColors}
 
 pub type Model {
-  Model(colors: ComponentColors, is_loading: Bool, is_saving: Bool, message: String, settings_service: settings_mod.SettingsService)
+  Model(
+    colors: ComponentColors,
+    is_loading: Bool,
+    is_saving: Bool,
+    message: String,
+    settings_service: settings_mod.SettingsService,
+  )
 }
 
 pub type Msg {
@@ -22,7 +28,16 @@ pub type InitArgs {
 pub fn init(args: InitArgs) -> #(Model, Effect(Msg)) {
   let colors = settings_mod.get_colors(args.settings_service)
 
-  #(Model(colors:, is_loading: False, is_saving: False, message: "", settings_service: args.settings_service), effect_none())
+  #(
+    Model(
+      colors:,
+      is_loading: False,
+      is_saving: False,
+      message: "",
+      settings_service: args.settings_service,
+    ),
+    effect_none(),
+  )
 }
 
 pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
@@ -39,7 +54,11 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
   }
 }
 
-fn update_color_field(colors: ComponentColors, key: String, value: String) -> ComponentColors {
+fn update_color_field(
+  colors: ComponentColors,
+  key: String,
+  value: String,
+) -> ComponentColors {
   case key {
     "background" -> ComponentColors(..colors, background: value)
     "text_primary" -> ComponentColors(..colors, text_primary: value)
@@ -71,9 +90,10 @@ pub fn view(model: Model) -> Element(Msg) {
     ]),
     case model.message {
       "" -> element_none()
-      msg -> html.div([class("mb-4 p-2 bg-[#22c55e] text-white rounded text-sm")], [
-        html.text(msg),
-      ])
+      msg ->
+        html.div([class("mb-4 p-2 bg-[#22c55e] text-white rounded text-sm")], [
+          html.text(msg),
+        ])
     },
     html.div([class("grid grid-cols-1 md:grid-cols-2 gap-6")], [
       color_section("General", [
@@ -83,21 +103,37 @@ pub fn view(model: Model) -> Element(Msg) {
         color_field("Border", "border", colors.border),
       ]),
       color_section("Card", [
-        color_field("Card Background", "card_background", colors.card_background),
+        color_field(
+          "Card Background",
+          "card_background",
+          colors.card_background,
+        ),
         color_field("Card Border", "card_border", colors.card_border),
         color_field("Card Text", "card_text", colors.card_text),
       ]),
       color_section("Button", [
         color_field("Button Primary", "button_primary", colors.button_primary),
-        color_field("Button Secondary", "button_secondary", colors.button_secondary),
+        color_field(
+          "Button Secondary",
+          "button_secondary",
+          colors.button_secondary,
+        ),
       ]),
       color_section("Input", [
-        color_field("Input Background", "input_background", colors.input_background),
+        color_field(
+          "Input Background",
+          "input_background",
+          colors.input_background,
+        ),
         color_field("Input Border", "input_border", colors.input_border),
         color_field("Input Text", "input_text", colors.input_text),
       ]),
       color_section("Header", [
-        color_field("Header Background", "header_background", colors.header_background),
+        color_field(
+          "Header Background",
+          "header_background",
+          colors.header_background,
+        ),
         color_field("Header Text", "header_text", colors.header_text),
       ]),
       color_section("Status", [
@@ -118,7 +154,11 @@ fn color_section(title: String, fields: List(Element(Msg))) -> Element(Msg) {
   ])
 }
 
-fn color_field(label_text: String, key: String, _value: String) -> Element(Msg) {
+fn color_field(
+  label_text: String,
+  key: String,
+  _value: String,
+) -> Element(Msg) {
   html.div([class("flex items-center justify-between")], [
     html.label([class("text-sm text-[#9ca3af]")], [html.text(label_text)]),
     html.input([

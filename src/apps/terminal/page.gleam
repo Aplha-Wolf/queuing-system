@@ -1,3 +1,4 @@
+import apps/terminal/public as terminal_mod
 import gleam/erlang/process
 import gleam/list
 import gleam/option.{type Option, Some as OptSome}
@@ -5,7 +6,6 @@ import lustre/attribute
 import lustre/effect.{type Effect, none, select as effect_select}
 import lustre/element.{type Element}
 import lustre/element/html
-import apps/terminal/public as terminal_mod
 import modules/notifications/public as notifications
 import shared_kernel/queue
 import shared_kernel/terminal
@@ -16,7 +16,11 @@ import ui/theme/theme as theme_helpers
 import ui/theme/types as theme_types
 
 pub type InitArgs {
-  InitArgs(code: String, terminal_service: terminal_mod.TerminalService, notification_bus: notifications.NotificationBus)
+  InitArgs(
+    code: String,
+    terminal_service: terminal_mod.TerminalService,
+    notification_bus: notifications.NotificationBus,
+  )
 }
 
 pub type Model {
@@ -56,18 +60,25 @@ pub fn init(args: InitArgs) -> #(Model, Effect(Msg)) {
       notification_bus: notification_bus,
     )
 
-  let sub_effect = effect_select(fn(_dispatch, subject) {
-    process.send(notification_bus, notifications.Register(subject))
-    process.new_selector()
-    |> process.select_map(for: subject, mapping: fn(event) { AppStateEvent(event) })
-  })
+  let sub_effect =
+    effect_select(fn(_dispatch, subject) {
+      process.send(notification_bus, notifications.Register(subject))
+      process.new_selector()
+      |> process.select_map(for: subject, mapping: fn(event) {
+        AppStateEvent(event)
+      })
+    })
 
   case terminal_mod.find_by_code(terminal_service, code) {
     OptSome(terminal) -> {
-      let loaded = Model(..base, terminal: option.Some(terminal), loading: False)
+      let loaded =
+        Model(..base, terminal: option.Some(terminal), loading: False)
       #(load_queues(loaded, code), sub_effect)
     }
-    _ -> #(Model(..base, loading: False, error: option.Some("Terminal not found")), sub_effect)
+    _ -> #(
+      Model(..base, loading: False, error: option.Some("Terminal not found")),
+      sub_effect,
+    )
   }
 }
 
@@ -139,12 +150,18 @@ fn header_view(
   )
 }
 
-fn body_view(model: Model, colors: theme_types.ComponentColors) -> Element(Msg) {
-  html.div([attribute.style("display", "flex"), attribute.style("height", "100%")], [
-    queue_list_section(model.queues, colors),
-    current_queue_section(model, colors),
-    action_section(model, colors),
-  ])
+fn body_view(
+  model: Model,
+  colors: theme_types.ComponentColors,
+) -> Element(Msg) {
+  html.div(
+    [attribute.style("display", "flex"), attribute.style("height", "100%")],
+    [
+      queue_list_section(model.queues, colors),
+      current_queue_section(model, colors),
+      action_section(model, colors),
+    ],
+  )
 }
 
 fn queue_list_section(
@@ -196,12 +213,17 @@ fn current_queue_section(
           [],
           [html.text(display_text)],
         ),
-        kit.div_with_class_and_style("mt-4 text-sm font-medium", status_color, [], [
-          html.text(case model.terminal {
-            OptSome(t) if t.active -> "ACTIVE"
-            _ -> "INACTIVE"
-          }),
-        ]),
+        kit.div_with_class_and_style(
+          "mt-4 text-sm font-medium",
+          status_color,
+          [],
+          [
+            html.text(case model.terminal {
+              OptSome(t) if t.active -> "ACTIVE"
+              _ -> "INACTIVE"
+            }),
+          ],
+        ),
       ],
     ),
   ])

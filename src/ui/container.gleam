@@ -35,7 +35,12 @@ pub fn view(model: Model(msg)) -> element.Element(msg) {
   let device_class = model.device |> device_to_class()
 
   let full_class =
-    "w-full mx-auto px-4 " <> size_class <> " " <> centered_class <> " " <> device_class
+    "w-full mx-auto px-4 "
+    <> size_class
+    <> " "
+    <> centered_class
+    <> " "
+    <> device_class
 
   [full_class |> class()]
   |> div(model.children)

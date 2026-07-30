@@ -30,7 +30,10 @@ pub fn text(content: String) -> Element(msg) {
   lelem_text(content)
 }
 
-pub fn section(class_name: String, children: List(Element(msg))) -> Element(msg) {
+pub fn section(
+  class_name: String,
+  children: List(Element(msg)),
+) -> Element(msg) {
   html.section([attribute.class(class_name)], children)
 }
 
@@ -48,7 +51,10 @@ pub fn footer_el(
   html.footer([attribute.class(class_name)], children)
 }
 
-pub fn main_el(class_name: String, children: List(Element(msg))) -> Element(msg) {
+pub fn main_el(
+  class_name: String,
+  children: List(Element(msg)),
+) -> Element(msg) {
   html.main([attribute.class(class_name)], children)
 }
 
@@ -60,7 +66,10 @@ pub fn nav(class_name: String, children: List(Element(msg))) -> Element(msg) {
   html.nav([attribute.class(class_name)], children)
 }
 
-pub fn article(class_name: String, children: List(Element(msg))) -> Element(msg) {
+pub fn article(
+  class_name: String,
+  children: List(Element(msg)),
+) -> Element(msg) {
   html.article([attribute.class(class_name)], children)
 }
 

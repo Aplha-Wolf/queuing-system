@@ -26,17 +26,22 @@ pub fn frontdesk_service(
   FrontdeskService(db:, queues:, notifications: notifications_bus)
 }
 
-pub fn find_by_code(service: FrontdeskService, code: String) -> Option(FrontdeskInfo) {
+pub fn find_by_code(
+  service: FrontdeskService,
+  code: String,
+) -> Option(FrontdeskInfo) {
   case frontdesk_sql.get_frontdesk_by_code(service.db, code) {
-    Ok(data) -> case list.first(data.rows) {
-      Ok(row) -> option.Some(FrontdeskInfo(
-        id: row.id,
-        code: row.code,
-        name: row.name,
-        active: row.active,
-      ))
-      _ -> option.None
-    }
+    Ok(data) ->
+      case list.first(data.rows) {
+        Ok(row) ->
+          option.Some(FrontdeskInfo(
+            id: row.id,
+            code: row.code,
+            name: row.name,
+            active: row.active,
+          ))
+        _ -> option.None
+      }
     _ -> option.None
   }
 }
