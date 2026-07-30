@@ -13,7 +13,7 @@ jobs:
   test:
     runs-on: docker
     container:
-      image: debian:bookworm-slim
+      image: node:20-bookworm-slim
     services:
       postgres:
         image: postgres:16
