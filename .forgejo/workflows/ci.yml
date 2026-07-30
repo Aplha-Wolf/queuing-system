@@ -13,7 +13,7 @@ jobs:
   test:
     runs-on: docker
     container:
-      image: node:20-bookworm-slim
+      image: node:20-alpine
     services:
       postgres:
         image: postgres:16
@@ -35,21 +35,14 @@ jobs:
 
       - name: Install system dependencies
         run: |
-          apt-get update -qq
-          apt-get install -y -qq --no-install-recommends \
+          apk add --no-cache \
             ca-certificates \
             curl \
-            gnupg
-          curl -fsSL https://packages.erlang-solutions.com/debian/erlang_solutions.asc \
-            | gpg --dearmor -o /usr/share/keyrings/esl.gpg
-          echo "deb [signed-by=/usr/share/keyrings/esl.gpg] https://packages.erlang-solutions.com/debian bookworm contrib" \
-            > /etc/apt/sources.list.d/erlang-solutions.list
-          apt-get update -qq
-          apt-get install -y -qq --no-install-recommends \
-            esl-erlang \
+            erlang \
+            erlang-dev \
             rebar3 \
-            postgresql-client \
-            build-essential
+            build-base \
+            postgresql-client
 
       - name: Install Gleam
         run: |
