@@ -106,7 +106,7 @@ pub fn find_terminal_by_code(
 FROM
     terminal
 WHERE
-    code LIKE $1
+    code = $1
 LIMIT 1
 "
   |> pog.query
@@ -254,13 +254,13 @@ FROM
   |> pog.execute(db)
 }
 
-/// Runs the `update_teminal` query
-/// defined in `./src/repository/terminal/sql/update_teminal.sql`.
+/// Runs the `update_terminal` query
+/// defined in `./src/repository/terminal/sql/update_terminal.sql`.
 ///
 /// > 🐿️ This function was generated automatically using v4.6.0 of
 /// > the [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
-pub fn update_teminal(
+pub fn update_terminal(
   db: pog.Connection,
   arg_1: String,
   arg_2: String,

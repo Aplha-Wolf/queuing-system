@@ -78,3 +78,5 @@ jobs:
         run: |
           pip install graphifyy[sql] --quiet 2>/dev/null
           python3 -m graphify update . --no-cluster 2>&1 || echo "graphify update skipped (optional)"
+
+      # TODO: Remove commented-out notification workflow at the end

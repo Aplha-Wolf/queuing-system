@@ -3,5 +3,5 @@ SELECT
 FROM
     terminal
 WHERE
-    code LIKE $1
+    code = $1
 LIMIT 1
