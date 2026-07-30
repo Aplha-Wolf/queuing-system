@@ -38,6 +38,7 @@ jobs:
           apk add --no-cache \
             ca-certificates \
             curl \
+            git \
             erlang \
             erlang-dev \
             rebar3 \
