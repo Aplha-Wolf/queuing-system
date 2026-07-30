@@ -5,26 +5,34 @@ graphify-out/
 # Ignore git metadata
 .git/
 
-# Ignore build artifacts
-client/build/
-server/build/
-shared/build/
+# Ignore Gleam build artifacts
+build/
+gen/
+dist/
 
-# Ignore compiled/bundled outputs
-client/.lustre/
-**.mjs
-**.lock
+# Ignore generated/bundled outputs
+priv/
+**/priv/*
+*.mjs
+*.lock
 
-# Ignore generated/compiled files
-server/priv/client.js
-server/priv/theme_ffi.ffi.js
+# Ignore generated FFI files
+src/lib/*.ffi.js
 
 # Ignore large media files (process separately if needed)
 *.mp4
 *.jpg
+*.png
+*.ico
+*.woff2
 
 # Ignore dependencies/vendor
 node_modules/
 
 # Dev config (not code)
 .devcontainer.json
+.env
+Makefile
+
+# OS metadata
+.DS_Store
