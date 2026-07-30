@@ -13,7 +13,7 @@ jobs:
   test:
     runs-on: docker
     container:
-      image: ubuntu:24.04
+      image: node:20-bookworm-slim
     services:
       postgres:
         image: postgres:16
@@ -38,12 +38,15 @@ jobs:
           apt-get update -qq
           apt-get install -y -qq --no-install-recommends \
             ca-certificates \
-            curl
-          curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+            curl \
+            gnupg
+          curl -fsSL https://packages.erlang-solutions.com/debian/erlang_solutions.asc \
+            | gpg --dearmor -o /usr/share/keyrings/esl.gpg
+          echo "deb [signed-by=/usr/share/keyrings/esl.gpg] https://packages.erlang-solutions.com/debian bookworm contrib" \
+            > /etc/apt/sources.list.d/erlang-solutions.list
+          apt-get update -qq
           apt-get install -y -qq --no-install-recommends \
-            nodejs \
-            erlang \
-            erlang-dev \
+            esl-erlang \
             rebar3 \
             postgresql-client \
             build-essential
