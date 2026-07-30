@@ -40,6 +40,8 @@ jobs:
             ca-certificates \
             curl \
             erlang \
+            erlang-dev \
+            rebar3 \
             postgresql-client \
             build-essential
 
