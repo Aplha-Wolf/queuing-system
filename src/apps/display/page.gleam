@@ -1,3 +1,4 @@
+import apps/display/public as display_mod
 import gleam/erlang/process
 import gleam/int
 import gleam/list
@@ -6,14 +7,17 @@ import lustre/attribute
 import lustre/effect.{type Effect, none, select as effect_select}
 import lustre/element.{type Element}
 import lustre/element/html
-import apps/display/public as display_mod
 import modules/notifications/public as notifications
 import shared_kernel/display
 import ui/theme/theme as theme_helpers
 import ui/theme/types as theme_types
 
 pub type InitArgs {
-  InitArgs(code: String, display_service: display_mod.DisplayService, notification_bus: notifications.NotificationBus)
+  InitArgs(
+    code: String,
+    display_service: display_mod.DisplayService,
+    notification_bus: notifications.NotificationBus,
+  )
 }
 
 pub type Model {
@@ -49,15 +53,19 @@ pub fn init(args: InitArgs) -> #(Model, Effect(Msg)) {
       notification_bus: notification_bus,
     )
 
-  let sub_effect = effect_select(fn(_dispatch, subject) {
-    process.send(notification_bus, notifications.Register(subject))
-    process.new_selector()
-    |> process.select_map(for: subject, mapping: fn(event) { AppStateEvent(event) })
-  })
+  let sub_effect =
+    effect_select(fn(_dispatch, subject) {
+      process.send(notification_bus, notifications.Register(subject))
+      process.new_selector()
+      |> process.select_map(for: subject, mapping: fn(event) {
+        AppStateEvent(event)
+      })
+    })
 
   case display_mod.find_by_code(display_service, code) {
     option.Some(d) -> {
-      let terminals = display_mod.get_terminals(display_service, d.id, d.cols * d.rows)
+      let terminals =
+        display_mod.get_terminals(display_service, d.id, d.cols * d.rows)
       #(
         Model(
           ..base,
@@ -68,7 +76,10 @@ pub fn init(args: InitArgs) -> #(Model, Effect(Msg)) {
         sub_effect,
       )
     }
-    _ -> #(Model(..base, loading: False, error: option.Some("Display not found")), sub_effect)
+    _ -> #(
+      Model(..base, loading: False, error: option.Some("Display not found")),
+      sub_effect,
+    )
   }
 }
 
@@ -77,7 +88,12 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
     NoOp -> #(model, none())
     AppStateEvent(_event) -> {
       let terminals = case model.display {
-        option.Some(d) -> display_mod.get_terminals(model.display_service, d.id, d.cols * d.rows)
+        option.Some(d) ->
+          display_mod.get_terminals(
+            model.display_service,
+            d.id,
+            d.cols * d.rows,
+          )
         _ -> model.terminals
       }
       #(Model(..model, terminals: terminals), none())

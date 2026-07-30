@@ -1,5 +1,5 @@
-import gleam/otp/static_supervisor
 import apps/settings/public as settings_mod
+import gleam/otp/static_supervisor
 import pog
 
 pub opaque type SettingsApp {
@@ -8,9 +8,7 @@ pub opaque type SettingsApp {
 
 pub fn start(db: pog.Connection) -> SettingsApp {
   let assert Ok(_) =
-    static_supervisor.start(
-      static_supervisor.new(static_supervisor.OneForOne),
-    )
+    static_supervisor.start(static_supervisor.new(static_supervisor.OneForOne))
   SettingsApp(service: settings_mod.settings_service(db))
 }
 

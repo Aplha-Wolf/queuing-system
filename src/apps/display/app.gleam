@@ -1,5 +1,5 @@
-import gleam/otp/static_supervisor
 import apps/display/public as display_mod
+import gleam/otp/static_supervisor
 import modules/queue/public as queue_mod
 import pog
 
@@ -12,9 +12,7 @@ pub fn start(
   queue_service: queue_mod.QueueService,
 ) -> DisplayApp {
   let assert Ok(_) =
-    static_supervisor.start(
-      static_supervisor.new(static_supervisor.OneForOne),
-    )
+    static_supervisor.start(static_supervisor.new(static_supervisor.OneForOne))
   DisplayApp(service: display_mod.display_service(db, queue_service))
 }
 

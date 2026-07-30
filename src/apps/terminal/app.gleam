@@ -1,5 +1,5 @@
-import gleam/otp/static_supervisor
 import apps/terminal/public as terminal_mod
+import gleam/otp/static_supervisor
 import modules/queue/public as queue_mod
 import pog
 
@@ -12,9 +12,7 @@ pub fn start(
   queue_service: queue_mod.QueueService,
 ) -> TerminalApp {
   let assert Ok(_) =
-    static_supervisor.start(
-      static_supervisor.new(static_supervisor.OneForOne),
-    )
+    static_supervisor.start(static_supervisor.new(static_supervisor.OneForOne))
   TerminalApp(service: terminal_mod.terminal_service(db, queue_service))
 }
 

@@ -59,7 +59,13 @@ pub fn layout_classes(state: ThemeState) -> String {
 
 pub fn card_classes(state: ThemeState) -> String {
   string.join(
-    ["rounded-lg", "p-6", border_color(state), surface_alt(state), text_primary(state)],
+    [
+      "rounded-lg",
+      "p-6",
+      border_color(state),
+      surface_alt(state),
+      text_primary(state),
+    ],
     " ",
   )
 }

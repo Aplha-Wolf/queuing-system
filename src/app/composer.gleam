@@ -1,11 +1,11 @@
-import apps/terminal/app as terminal_app
 import apps/display/app as display_app
-import apps/frontdesk/app as frontdesk_app
-import apps/settings/app as settings_app
-import apps/terminal/public as terminal_mod
 import apps/display/public as display_mod
+import apps/frontdesk/app as frontdesk_app
 import apps/frontdesk/public as frontdesk_mod
+import apps/settings/app as settings_app
 import apps/settings/public as settings_mod
+import apps/terminal/app as terminal_app
+import apps/terminal/public as terminal_mod
 import helpers/env_loader
 import helpers/sql as sql_helper
 import modules/notifications/public as notifications
@@ -35,9 +35,11 @@ pub fn bootstrap() -> App {
   App(
     terminal: terminal_app.get_service(terminal_app.start(db, queue_service)),
     display: display_app.get_service(display_app.start(db, queue_service)),
-    frontdesk: frontdesk_app.get_service(
-      frontdesk_app.start(db, queue_service, notif_bus),
-    ),
+    frontdesk: frontdesk_app.get_service(frontdesk_app.start(
+      db,
+      queue_service,
+      notif_bus,
+    )),
     settings: settings_app.get_service(settings_app.start(db)),
     notifications: notif_bus,
     db: db,

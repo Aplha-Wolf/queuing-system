@@ -103,16 +103,18 @@ fn handle_terminal(
 ) -> http_resp.Response(mist.ResponseData) {
   case is_websocket_upgrade(req) {
     True -> {
-      let comp = lustre.application(
-        page_terminal.init,
-        page_terminal.update,
-        page_terminal.view,
-      )
-      let init = page_terminal.InitArgs(
-        code:,
-        terminal_service: app.terminal,
-        notification_bus: app.notifications,
-      )
+      let comp =
+        lustre.application(
+          page_terminal.init,
+          page_terminal.update,
+          page_terminal.view,
+        )
+      let init =
+        page_terminal.InitArgs(
+          code:,
+          terminal_service: app.terminal,
+          notification_bus: app.notifications,
+        )
       let assert Ok(runtime) = lustre.start_server_component(comp, init)
       start_websocket(req, server_component.subject(runtime))
     }
@@ -127,16 +129,18 @@ fn handle_display(
 ) -> http_resp.Response(mist.ResponseData) {
   case is_websocket_upgrade(req) {
     True -> {
-      let comp = lustre.application(
-        page_display.init,
-        page_display.update,
-        page_display.view,
-      )
-      let init = page_display.InitArgs(
-        code:,
-        display_service: app.display,
-        notification_bus: app.notifications,
-      )
+      let comp =
+        lustre.application(
+          page_display.init,
+          page_display.update,
+          page_display.view,
+        )
+      let init =
+        page_display.InitArgs(
+          code:,
+          display_service: app.display,
+          notification_bus: app.notifications,
+        )
       let assert Ok(runtime) = lustre.start_server_component(comp, init)
       start_websocket(req, server_component.subject(runtime))
     }
@@ -151,12 +155,14 @@ fn handle_frontdesk(
 ) -> http_resp.Response(mist.ResponseData) {
   case is_websocket_upgrade(req) {
     True -> {
-      let comp = lustre.application(
-        page_frontdesk.init,
-        page_frontdesk.update,
-        page_frontdesk.view,
-      )
-      let init = page_frontdesk.InitArgs(code:, frontdesk_service: app.frontdesk)
+      let comp =
+        lustre.application(
+          page_frontdesk.init,
+          page_frontdesk.update,
+          page_frontdesk.view,
+        )
+      let init =
+        page_frontdesk.InitArgs(code:, frontdesk_service: app.frontdesk)
       let assert Ok(runtime) = lustre.start_server_component(comp, init)
       start_websocket(req, server_component.subject(runtime))
     }
@@ -170,11 +176,12 @@ fn handle_settings(
 ) -> http_resp.Response(mist.ResponseData) {
   case is_websocket_upgrade(req) {
     True -> {
-      let comp = lustre.application(
-        page_settings.init,
-        page_settings.update,
-        page_settings.view,
-      )
+      let comp =
+        lustre.application(
+          page_settings.init,
+          page_settings.update,
+          page_settings.view,
+        )
       let init = page_settings.InitArgs(settings_service: app.settings)
       let assert Ok(runtime) = lustre.start_server_component(comp, init)
       start_websocket(req, server_component.subject(runtime))
@@ -200,7 +207,9 @@ fn start_websocket(
     handler: fn(subject, msg, conn) {
       case msg {
         mist.Text(data) -> {
-          case json.parse(data, using: server_component.runtime_message_decoder()) {
+          case
+            json.parse(data, using: server_component.runtime_message_decoder())
+          {
             Ok(runtime_msg) -> {
               process.send(comp_subject, runtime_msg)
               mist.continue(subject)
@@ -212,7 +221,12 @@ fn start_websocket(
         mist.Binary(data) -> {
           case bit_array.to_string(data) {
             Ok(text) -> {
-              case json.parse(text, using: server_component.runtime_message_decoder()) {
+              case
+                json.parse(
+                  text,
+                  using: server_component.runtime_message_decoder(),
+                )
+              {
                 Ok(runtime_msg) -> {
                   process.send(comp_subject, runtime_msg)
                   mist.continue(subject)
@@ -235,9 +249,10 @@ fn start_websocket(
   )
 }
 
-fn html_page_response(title: String, route: String) -> http_resp.Response(
-  mist.ResponseData,
-) {
+fn html_page_response(
+  title: String,
+  route: String,
+) -> http_resp.Response(mist.ResponseData) {
   let html = page_html(title, route)
   http_resp.new(200)
   |> http_resp.set_header("content-type", "text/html; charset=utf-8")

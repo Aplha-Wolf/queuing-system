@@ -38,7 +38,12 @@ pub fn view(model: Model(msg)) -> Element(msg) {
   let device_class = device_to_class(model.device)
 
   let combined_class =
-    "flex flex-col " <> border_class <> " " <> device_class <> " " <> model.extra_class
+    "flex flex-col "
+    <> border_class
+    <> " "
+    <> device_class
+    <> " "
+    <> model.extra_class
 
   let list_items =
     list.map(model.items, fn(item: Element(msg)) {
